@@ -11,15 +11,21 @@ class Player
 end
 
 class Game
-  def getPlayers
-    player1 = Player.new("Tin", "x")
-    player2 = Player.new("SomeoneElse", "o")
+  def initialize(player1, player2)
+    @player1 = player1
+    @player2 = player2
+  end
+
+  def logPlayers
+    puts @player1.logPlayerName
+    puts @player2.logPlayerName
   end
 
 end
 
-game = Game.new
+player1 = Player.new("tin", "x")
+player2 = Player.new("Toni", "o")
 
-game.getPlayers
+game = Game.new(player1, player2)
 
 game.logPlayers
