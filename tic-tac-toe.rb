@@ -4,26 +4,22 @@ class Player
     @symbol = symbol
   end
 
-  def show_player
-    puts "Player name is #{@name} and symbol is #{@symbol}"
+  public
+  def logPlayerName
+    puts @name
   end
 end
 
-class Board
-  @@board = [ 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ]
-
-  def show_board
-    puts "Board is \n
-          #{@@board[0]} | #{@@board[1]} | #{@@board[2]} \n
-          #{@@board[3]} | #{@@board[4]} | #{@@board[5]} \n
-          #{@@board[6]} | #{@@board[7]} | #{@@board[8]} \n"
+class Game
+  def getPlayers
+    player1 = Player.new("Tin", "x")
+    player2 = Player.new("SomeoneElse", "o")
   end
 
 end
 
-tin = Player.new("tin", "x")
-gameboard = Board.new
-gameboard.show_board
+game = Game.new
 
+game.getPlayers
 
-tin.show_player
+game.logPlayers
