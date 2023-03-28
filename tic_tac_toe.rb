@@ -15,6 +15,7 @@ class Game
   @gameboard = [[0, 1, 2],
                 [3, 4, 5],
                 [6, 7, 8]]
+  @player_turn = 0
 
   def initialize(player1, player2)
     @player1 = player1
@@ -27,11 +28,30 @@ class Game
   end
 
   def display_board
-    @@gameboard.each_with_index do |row, _index|
+    @gameboard.each_with_index do |row, _index|
       row.each_with_index do |tile, index|
         print tile
         print "\n" if index == 2
       end
+    end
+  end
+
+  def replace_tile_with_symbol()
+      puts 'Please enter the number of the tile on which you wish to place your symbol'
+      tile = gets.chomp
+      @gameboard.each {|row| 
+      row.each {
+        
+      }}
+  end
+
+  def place_symbol_on_board
+    if @player_turn.zero?
+      @player_turn = 1
+     replace_tile_with_symbol()
+    else
+      @player_turn = 0
+      replace_tile_with_symbol()
     end
   end
 end
@@ -41,4 +61,4 @@ player2 = Player.new('Toni', 'o')
 
 game = Game.new(player1, player2)
 
-game.displayBoard
+game.display_board
