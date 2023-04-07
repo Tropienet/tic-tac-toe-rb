@@ -6,53 +6,81 @@ class Player
     @symbol = symbol
   end
 
-  def log_player_name
-    puts @name
+  def display_name
+    @name
+  end
+
+  def place_symbol
+    @symbol
   end
 end
 
 class Game
-  @gameboard = [[0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8]]
-  @player_turn = 0
-
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
-  end
-
-  def log_players
-    puts @player1.logPlayerName
-    puts @player2.logPlayerName
+    @gameboard = [[0, 1, 2],
+                  [3, 4, 5],
+                  [6, 7, 8]]
+    @player_turn = 0
+    @user_input = 0
+    @current_player = @player1
   end
 
   def display_board
-    @gameboard.each_with_index do |row, _index|
-      row.each_with_index do |tile, index|
-        print tile
-        print "\n" if index == 2
+    @gameboard.each do |row|
+      row.each do |tile|
+        print "#{tile} "
+      end
+      print "\n"
+    end
+  end
+
+  def change_board
+    @gameboard.each_with_index do |row, row_index|
+      row.each_with_index do |column, column_index|
+        @gameboard[row_index][column_index] = @current_player.place_symbol if column == @user_input.to_i
       end
     end
   end
 
-  def replace_tile_with_symbol()
-      puts 'Please enter the number of the tile on which you wish to place your symbol'
-      tile = gets.chomp
-      @gameboard.each {|row| 
-      row.each {
-        
-      }}
+  def get_user_input
+    @user_input = gets.chomp
+    @user_input = gets.chomp while @user_input.length > 1
   end
 
-  def place_symbol_on_board
-    if @player_turn.zero?
-      @player_turn = 1
-     replace_tile_with_symbol()
-    else
-      @player_turn = 0
-      replace_tile_with_symbol()
+  def check_for_winner
+    if @gameboard[0][0] == @gameboard[0][1] && @gameboard[0][1] == @gameboard[0][2]
+      return false
+    elsif @gameboard[1][0] == @gameboard[1][1] && @gameboard[1][1] == @gameboard[1][2]
+      return false
+    elsif @gameboard[2][0] == @gameboard[2][1] && @gameboard[2][1] == @gameboard[2][2]
+      return false
+    elsif @gameboard[0][0] == @gameboard[1][0] && @gameboard[1][0] == @gameboard[2][0]
+      return false
+    elsif @gameboard[0][1] == @gameboard[1][1] && @gameboard[1][1] == @gameboard[2][1]
+      return false
+    elsif @gameboard[0][2] == @gameboard[1][2] && @gameboard[1][2] == @gameboard[2][2]
+      return false
+    elsif @gameboard[0][0] == @gameboard[1][1] && @gameboard[1][1] == @gameboard[2][2]
+      return false
+    elsif @gameboard[2][0] == @gameboard[1][1] && @gameboard[1][1] == @gameboard[0][2]
+      return false
     end
+
+    true
+  end
+
+  def change_player
+    @current_player = if @current_player == @player1
+                        @player2
+                      else
+                        @player1
+                      end
+  end
+
+  def announce_winner
+    puts "The winner is #{@current_player.display_name}"
   end
 end
 
@@ -61,4 +89,11 @@ player2 = Player.new('Toni', 'o')
 
 game = Game.new(player1, player2)
 
-game.display_board
+while game.check_for_winner
+  game.get_user_input
+  game.change_board
+  game.display_0board
+  game.change_player
+end
+
+game.announce_winner
